@@ -7,27 +7,25 @@ function gameInitialization() {
         var line = playGround.insertRow(i);
         for (var j = 0; j < columns; ++j) {
             var cell = line.insertCell(j);
-            playGround.rows[i].cells[j].style="border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
         }
     }
-    playGround.rows[7].cells[1].style="background-color: green; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
-    playGround.rows[7].cells[1].setAttribute("snake", "true");
-    playGround.rows[7].cells[1].setAttribute("nextDirection", "Right");
-    playGround.rows[7].cells[2].style="background-color: green; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
-    playGround.rows[7].cells[2].setAttribute("snake", "true");
-    playGround.rows[7].cells[2].setAttribute("nextDirection", "Right");
-    playGround.rows[7].cells[3].style="background-color: green; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
-    playGround.rows[7].cells[3].setAttribute("snake", "true");
-    playGround.rows[7].cells[3].setAttribute("nextDirection", "Right");
-    playGround.rows[7].cells[12].style="background-color: violet; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
-    playGround.rows[7].cells[12].setAttribute("apple", "true");
+    snakeBody(playGround, 7, 1);
+    snakeBody(playGround, 7, 2);
+    snakeBody(playGround, 7, 3);
+    playGround.rows[0].cells[0].setAttribute("apple", "true");
+    eatAndAddApple(playGround,0,0,0,0,lines,columns);
     startGame(playGround, lines, columns);
     return false;
 }
 
+function snakeBody(playGround, line, col) {
+    playGround.rows[line].cells[col].style="background-color: green;";
+    playGround.rows[line].cells[col].setAttribute("snake", "true");
+    playGround.rows[line].cells[col].setAttribute("nextDirection", "Right");
+}
+
 function startGame(playGround, lines, columns) {
-    var counter = 0;
-    var i = 7, j = 3, directionj = 1, directioni = 0 , nextDirection = "Right";
+    var directionj = 1, directioni = 0 , nextDirection = "Right";
     window.addEventListener('keydown',function(e) {
         var key = e.key; 
         if (key == "ArrowUp" && nextDirection != "Down") {
@@ -92,13 +90,13 @@ function eatAndAddApple(playGround, iHead, jHead, directioni, directionj, lines,
 
 function moveHead(playGround, iHead, jHead, directioni, directionj, nextDirection) {
     playGround.rows[iHead].cells[jHead].setAttribute("snake", "true");
-    playGround.rows[iHead+directioni].cells[jHead+directionj].style="background-color: green; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
+    playGround.rows[iHead+directioni].cells[jHead+directionj].style="background-color: green;";
     playGround.rows[iHead].cells[jHead].setAttribute("nextDirection", nextDirection);
 }
 
 function moveTail(playGround, iTail, jTail) {
     playGround.rows[iTail].cells[jTail].setAttribute("snake", "false");
-    playGround.rows[iTail].cells[jTail].style="background-color: white; border: 1px solid rgba(0, 0, 0, 0.8); width: 25px; height: 25px;";
+    playGround.rows[iTail].cells[jTail].style="background-color: white;";
 }
 
 function restart() {
